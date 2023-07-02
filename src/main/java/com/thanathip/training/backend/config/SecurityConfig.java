@@ -19,7 +19,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
     private final TokenService tokenService;
-    String[] PUBLIC = new String[]{"/user/register", "/user/login"};
+    String[] PUBLIC = new String[]{"/user/register", "/user/login","/actuator/**"};
 
     public SecurityConfig(TokenService tokenService) {
         this.tokenService = tokenService;
@@ -50,7 +50,7 @@ public class SecurityConfig {
         });
         http.authorizeHttpRequests(config -> {
             System.out.println("config = " + config);
-            config.requestMatchers("/user/register", "/user/login").anonymous()
+            config.requestMatchers(PUBLIC).anonymous()
                     .anyRequest().authenticated();
         }).apply(new TokenFilterConfigurer(tokenService));
 
